@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camino Mínimo — Algoritmo de Dijkstra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <span class="kicker">MATEMÁTICA COMPUTACIONAL — PROYECTO</span>
+      <h1>Camino <em>Mínimo</em></h1>
+    </div>
+    <div class="stepper" id="stepper">
+      <div class="tab active" data-step="1"><span class="n">1</span> Configuración</div>
+      <div class="tab" data-step="2"><span class="n">2</span> Matriz</div>
+      <div class="tab" data-step="3"><span class="n">3</span> Grafo &amp; Dijkstra</div>
+    </div>
+  </header>
+
+  <!-- ================= SCREEN 1: CONFIG ================= -->
+  <section class="screen visible" id="screen-1">
+    <div class="panel">
+      <h2>1. Número de vértices</h2>
+      <p class="hint">Indica cuántos vértices tendrá el grafo ponderado (entre 5 y 15).</p>
+      <div class="field">
+        <label for="nInput">N° de vértices (n)</label>
+        <input type="number" id="nInput" min="5" max="15" value="6">
+      </div>
+
+      <h2 style="margin-top:8px;">2. Construcción de la matriz</h2>
+      <p class="hint">Elige cómo se generará la matriz de adyacencia ponderada n×n.</p>
+      <div class="choice-row">
+        <div class="choice-card selected" id="cardAuto" data-mode="auto">
+          <span class="tag">OPCIÓN A</span>
+          <h3>Generación automática</h3>
+          <p>El programa crea aleatoriamente los pesos (no negativos) de las aristas, garantizando que el grafo sea conexo.</p>
+        </div>
+        <div class="choice-card" id="cardManual" data-mode="manual">
+          <span class="tag">OPCIÓN B</span>
+          <h3>Ingreso manual</h3>
+          <p>Tú introduces el peso de cada arista directamente en la matriz de adyacencia.</p>
+        </div>
+      </div>
+
+      <div class="case-banner">
+        <div>
+          <span class="tag">CASO REAL</span>
+          <h3>SAMU — Ambulancia en San Juan de Lurigancho</h3>
+          <p>Carga de un clic la red de 12 puntos del caso de estudio, con tiempos en minutos.</p>
+        </div>
+        <button class="btn secondary" id="btnLoadCase">Cargar caso real</button>
+      </div>
+
+      <div class="error-box" id="errorConfig"></div>
+
+      <div class="actions">
+        <span></span>
+        <div class="right">
+          <button class="btn accent" id="btnToMatrix">Continuar →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SCREEN 2: MATRIX ================= -->
+  <section class="screen" id="screen-2">
+    <div class="panel">
+      <h2 id="matrixTitle">Matriz de adyacencia ponderada</h2>
+      <p class="hint" id="matrixHint">Ingresa el peso de cada arista (0 = sin conexión entre ese par de vértices). El grafo es no dirigido, por lo que la matriz es simétrica.</p>
+      <div class="case-info" id="caseInfo"></div>
+      <div class="matrix-wrap" id="matrixWrap"></div>
+      <div class="paste-panel" id="pastePanel">
+        <label for="pasteArea">Pega la matriz (una fila por línea; valores separados por espacios, tabulaciones, comas o punto y coma). Sirve copiar directo desde Excel.</label>
+        <textarea id="pasteArea" rows="6" spellcheck="false" placeholder="0 4 0 2 0&#10;4 0 3 0 0&#10;..."></textarea>
+        <div class="right">
+          <button class="btn secondary" id="btnPasteCancel">Cancelar</button>
+          <button class="btn accent" id="btnPasteApply">Aplicar matriz</button>
+        </div>
+      </div>
+      <div class="error-box" id="errorMatrix"></div>
+      <div class="actions">
+        <button class="btn secondary" id="btnBackConfig">← Volver</button>
+        <div class="right">
+          <button class="btn secondary" id="btnPaste">Pegar matriz</button>
+          <button class="btn secondary" id="btnRegenerate" style="display:none;">Regenerar aleatoriamente</button>
+          <button class="btn accent" id="btnToGraph">Generar grafo →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SCREEN 3: GRAPH + DIJKSTRA ================= -->
+  <section class="screen" id="screen-3">
+    <div class="panel">
+      <h2>Grafo ponderado</h2>
+      <p class="hint">Selecciona el vértice de origen y el vértice de destino para calcular el camino mínimo con el algoritmo de Dijkstra.</p>
+      <div class="warn-box" id="warnGraph"></div>
+
+      <div class="graph-layout">
+        <div class="canvas-frame">
+          <svg id="graphSvg" viewBox="0 0 600 600"></svg>
+        </div>
+
+        <div class="side-panel">
+          <div class="mini-panel">
+            <h3>Parámetros de búsqueda</h3>
+            <div class="select-row">
+              <div class="field">
+                <label for="originSelect">Origen</label>
+                <select id="originSelect"></select>
+              </div>
+              <div class="field">
+                <label for="destSelect">Destino</label>
+                <select id="destSelect"></select>
+              </div>
+              <button class="btn accent" id="btnCalc">Calcular</button>
+            </div>
+            <div class="error-box" id="errorPath"></div>
+          </div>
+
+          <div class="result-card" id="resultCard">
+            <div class="cost" id="resultCost">— <span>unidades</span></div>
+            <div class="path" id="resultPath"></div>
+          </div>
+
+          <div class="mini-panel" id="legendPanel" style="display:none;">
+            <h3>Leyenda de vértices</h3>
+            <ul class="legend" id="legendList"></ul>
+          </div>
+
+          <div class="mini-panel">
+            <button class="btn secondary" id="btnBackMatrix" style="width:100%;">← Editar matriz</button>
+            <button class="btn secondary" id="btnBackConfig3" style="width:100%; margin-top:10px;">← Volver a configuración</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps-wrap" id="stepsWrap" style="display:none;">
+        <h3>Desarrollo paso a paso — Algoritmo de Dijkstra</h3>
+        <p class="hint">Cada celda muestra la etiqueta <code style="font-family:var(--mono)">[distancia acumulada, vértice de procedencia]</code> en el momento en que se actualizó. La celda resaltada indica la iteración en que ese vértice quedó fijado (visitado).</p>
+        <div class="matrix-wrap">
+          <table class="trace" id="traceTable"></table>
+        </div>
+        <ol class="narrative" id="narrative"></ol>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="casos.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
