@@ -9,6 +9,36 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<!-- Íconos (dibujados a mano, sin dependencias externas) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-graph" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M7.5 6h9M6.3 8.2l4.5 7.6M17.7 8.2l-4.5 7.6"/></symbol>
+    <symbol id="i-ambulance" viewBox="0 0 24 24"><path d="M14 17V6H4a1 1 0 0 0-1 1v10h2M9 17h6M19 17h2v-4l-3-4h-4"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M8.5 8.5v4M6.5 10.5h4"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1" fill="currentColor"/><rect x="14" y="4.5" width="4" height="15" rx="1" fill="currentColor"/></symbol>
+    <symbol id="i-step-back" viewBox="0 0 24 24"><path d="M19 19.5 9 12l10-7.5z" fill="currentColor"/><path d="M5 19V5"/></symbol>
+    <symbol id="i-step-fwd" viewBox="0 0 24 24"><path d="m5 4.5 10 7.5-10 7.5z" fill="currentColor"/><path d="M19 5v14"/></symbol>
+    <symbol id="i-first" viewBox="0 0 24 24"><path d="M11 19 3 12l8-7zM21 19l-8-7 8-7z" fill="currentColor"/></symbol>
+    <symbol id="i-last" viewBox="0 0 24 24"><path d="m13 19 8-7-8-7zM3 19l8-7-8-7z" fill="currentColor"/></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-film" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4M3 16h4M17 8h4M17 16h4"/></symbol>
+  </defs>
+</svg>
 <div class="app">
 
   <header class="top">
@@ -17,9 +47,9 @@
       <h1>Camino <em>Mínimo</em></h1>
     </div>
     <div class="stepper" id="stepper">
-      <div class="tab active" data-step="1"><span class="n">1</span> Configuración</div>
-      <div class="tab" data-step="2"><span class="n">2</span> Matriz</div>
-      <div class="tab" data-step="3"><span class="n">3</span> Grafo &amp; Dijkstra</div>
+      <div class="tab active" data-step="1"><span class="n">1</span><svg class="ic tab-ic" aria-hidden="true"><use href="#i-sliders"/></svg> Configuración</div>
+      <div class="tab" data-step="2"><span class="n">2</span><svg class="ic tab-ic" aria-hidden="true"><use href="#i-grid"/></svg> Matriz</div>
+      <div class="tab" data-step="3"><span class="n">3</span><svg class="ic tab-ic" aria-hidden="true"><use href="#i-graph"/></svg> Grafo &amp; Dijkstra</div>
     </div>
   </header>
 
@@ -37,24 +67,25 @@
       <p class="hint">Elige cómo se generará la matriz de adyacencia ponderada n×n.</p>
       <div class="choice-row">
         <div class="choice-card selected" id="cardAuto" data-mode="auto">
-          <span class="tag">OPCIÓN A</span>
+          <span class="tag"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> OPCIÓN A</span>
           <h3>Generación automática</h3>
           <p>El programa crea aleatoriamente los pesos (no negativos) de las aristas, garantizando que el grafo sea conexo.</p>
         </div>
         <div class="choice-card" id="cardManual" data-mode="manual">
-          <span class="tag">OPCIÓN B</span>
+          <span class="tag"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg> OPCIÓN B</span>
           <h3>Ingreso manual</h3>
           <p>Tú introduces el peso de cada arista directamente en la matriz de adyacencia.</p>
         </div>
       </div>
 
       <div class="case-banner">
-        <div>
+        <div class="case-ic"><svg class="ic" aria-hidden="true"><use href="#i-ambulance"/></svg></div>
+        <div class="case-text">
           <span class="tag">CASO REAL</span>
           <h3>SAMU — Ambulancia en San Juan de Lurigancho</h3>
           <p>Carga de un clic la red de 12 puntos del caso de estudio, con tiempos en minutos.</p>
         </div>
-        <button class="btn secondary" id="btnLoadCase">Cargar caso real</button>
+        <button class="btn secondary" id="btnLoadCase"><svg class="ic" aria-hidden="true"><use href="#i-ambulance"/></svg> Cargar caso real</button>
       </div>
 
       <div class="error-box" id="errorConfig"></div>
@@ -62,7 +93,7 @@
       <div class="actions">
         <span></span>
         <div class="right">
-          <button class="btn accent" id="btnToMatrix">Continuar →</button>
+          <button class="btn accent" id="btnToMatrix">Continuar <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
         </div>
       </div>
     </div>
@@ -71,12 +102,12 @@
   <!-- ================= SCREEN 2: MATRIX ================= -->
   <section class="screen" id="screen-2">
     <div class="panel">
-      <h2 id="matrixTitle">Matriz de adyacencia ponderada</h2>
+      <h2 class="with-ic"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg><span id="matrixTitle">Matriz de adyacencia ponderada</span></h2>
       <p class="hint" id="matrixHint">Ingresa el peso de cada arista (0 = sin conexión entre ese par de vértices). El grafo es no dirigido, por lo que la matriz es simétrica.</p>
       <div class="case-info" id="caseInfo"></div>
       <div class="matrix-wrap" id="matrixWrap"></div>
       <div class="paste-panel" id="pastePanel">
-        <label for="pasteArea">Pega la matriz (una fila por línea; valores separados por espacios, tabulaciones, comas o punto y coma). Sirve copiar directo desde Excel.</label>
+        <label for="pasteArea">Pega la matriz (una fila por línea; valores separados por espacios, tabulaciones, comas o punto y coma; decimales con punto). Sirve copiar directo desde Excel.</label>
         <textarea id="pasteArea" rows="6" spellcheck="false" placeholder="0 4 0 2 0&#10;4 0 3 0 0&#10;..."></textarea>
         <div class="right">
           <button class="btn secondary" id="btnPasteCancel">Cancelar</button>
@@ -85,11 +116,12 @@
       </div>
       <div class="error-box" id="errorMatrix"></div>
       <div class="actions">
-        <button class="btn secondary" id="btnBackConfig">← Volver</button>
+        <button class="btn secondary" id="btnBackConfig"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg> Volver</button>
         <div class="right">
-          <button class="btn secondary" id="btnPaste">Pegar matriz</button>
-          <button class="btn secondary" id="btnRegenerate" style="display:none;">Regenerar aleatoriamente</button>
-          <button class="btn accent" id="btnToGraph">Generar grafo →</button>
+          <button class="btn secondary" id="btnClear"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg> Limpiar</button>
+          <button class="btn secondary" id="btnPaste"><svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg> Pegar matriz</button>
+          <button class="btn secondary" id="btnRegenerate" style="display:none;"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg> Regenerar aleatoriamente</button>
+          <button class="btn accent" id="btnToGraph"><svg class="ic" aria-hidden="true"><use href="#i-graph"/></svg> Generar grafo <svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
         </div>
       </div>
     </div>
@@ -98,18 +130,46 @@
   <!-- ================= SCREEN 3: GRAPH + DIJKSTRA ================= -->
   <section class="screen" id="screen-3">
     <div class="panel">
-      <h2>Grafo ponderado</h2>
+      <h2 class="with-ic"><svg class="ic" aria-hidden="true"><use href="#i-graph"/></svg> Grafo ponderado</h2>
       <p class="hint">Selecciona el vértice de origen y el vértice de destino para calcular el camino mínimo con el algoritmo de Dijkstra.</p>
       <div class="warn-box" id="warnGraph"></div>
 
       <div class="graph-layout">
+
+        <div class="anim-bar" id="animBar">
+          <div class="anim-controls">
+            <button class="icon-btn" id="animFirst" title="Ir al inicio (Inicio)" aria-label="Ir al inicio"><svg class="ic" aria-hidden="true"><use href="#i-first"/></svg></button>
+            <button class="icon-btn" id="animPrev" title="Paso anterior (←)" aria-label="Paso anterior"><svg class="ic" aria-hidden="true"><use href="#i-step-back"/></svg></button>
+            <button class="btn accent play-btn" id="animPlay"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><span>Animar paso a paso</span></button>
+            <button class="icon-btn" id="animNext" title="Paso siguiente (→)" aria-label="Paso siguiente"><svg class="ic" aria-hidden="true"><use href="#i-step-fwd"/></svg></button>
+            <button class="icon-btn" id="animLast" title="Ir al resultado (Fin)" aria-label="Ir al resultado"><svg class="ic" aria-hidden="true"><use href="#i-last"/></svg></button>
+            <span class="anim-counter" id="animCounter" aria-live="polite"></span>
+            <label class="anim-speed">Velocidad
+              <select id="animSpeed">
+                <option value="2600">Lenta</option>
+                <option value="1500" selected>Normal</option>
+                <option value="800">Rápida</option>
+              </select>
+            </label>
+            <button class="icon-btn" id="animExit" title="Salir de la animación (Esc)" aria-label="Salir de la animación" hidden><svg class="ic" aria-hidden="true"><use href="#i-x"/></svg></button>
+          </div>
+          <div class="anim-caption" id="animCaption"></div>
+          <div class="anim-key">
+            <span><i class="k-cur"></i> se fija en esta iteración</span>
+            <span><i class="k-fix"></i> ya fijado</span>
+            <span><i class="k-reach"></i> con etiqueta provisional</span>
+            <span><i class="k-upd"></i> arista que mejora la etiqueta</span>
+            <span><i class="k-keep"></i> arista que no mejora</span>
+            <span><i class="k-tree"></i> árbol de caminos mínimos</span>
+          </div>
+        </div>
         <div class="canvas-frame">
           <svg id="graphSvg" viewBox="0 0 600 600"></svg>
         </div>
 
         <div class="side-panel">
           <div class="mini-panel">
-            <h3>Parámetros de búsqueda</h3>
+            <h3 class="with-ic"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg> Parámetros de búsqueda</h3>
             <div class="select-row">
               <div class="field">
                 <label for="originSelect">Origen</label>
@@ -119,7 +179,7 @@
                 <label for="destSelect">Destino</label>
                 <select id="destSelect"></select>
               </div>
-              <button class="btn accent" id="btnCalc">Calcular</button>
+              <button class="btn accent" id="btnCalc"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg> Calcular</button>
             </div>
             <div class="error-box" id="errorPath"></div>
           </div>
@@ -129,25 +189,28 @@
             <div class="path" id="resultPath"></div>
           </div>
 
-          <div class="mini-panel" id="legendPanel" style="display:none;">
-            <h3>Leyenda de vértices</h3>
-            <ul class="legend" id="legendList"></ul>
-          </div>
-
-          <div class="mini-panel">
-            <button class="btn secondary" id="btnBackMatrix" style="width:100%;">← Editar matriz</button>
-            <button class="btn secondary" id="btnBackConfig3" style="width:100%; margin-top:10px;">← Volver a configuración</button>
-          </div>
         </div>
       </div>
 
+      <div class="mini-panel legend-panel" id="legendPanel" style="display:none;">
+        <h3 class="with-ic"><svg class="ic" aria-hidden="true"><use href="#i-list"/></svg> Leyenda de vértices</h3>
+        <ul class="legend" id="legendList"></ul>
+      </div>
+
       <div class="steps-wrap" id="stepsWrap" style="display:none;">
-        <h3>Desarrollo paso a paso — Algoritmo de Dijkstra</h3>
-        <p class="hint">Cada celda muestra la etiqueta <code style="font-family:var(--mono)">[distancia acumulada, vértice de procedencia]</code> en el momento en que se actualizó. La celda resaltada indica la iteración en que ese vértice quedó fijado (visitado).</p>
+        <h3 class="with-ic"><svg class="ic" aria-hidden="true"><use href="#i-table"/></svg> Desarrollo paso a paso — Algoritmo de Dijkstra</h3>
+        <p class="hint">Cada columna muestra la etiqueta <code style="font-family:var(--mono)">[distancia acumulada, vértice de procedencia]</code> de cada vértice al terminar esa iteración. <span class="key key-final">celda naranja</span> = vértice que se fija en esa iteración · <span class="key key-upd">texto naranja</span> = etiqueta actualizada · ✓ = ya fijado antes · ∞ = aún sin etiqueta.</p>
         <div class="matrix-wrap">
           <table class="trace" id="traceTable"></table>
         </div>
         <ol class="narrative" id="narrative"></ol>
+      </div>
+
+      <div class="actions">
+        <button class="btn secondary" id="btnBackMatrix"><svg class="ic" aria-hidden="true"><use href="#i-arrow-left"/></svg> Editar matriz</button>
+        <div class="right">
+          <button class="btn secondary" id="btnBackConfig3"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg> Volver a configuración</button>
+        </div>
       </div>
     </div>
   </section>

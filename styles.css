@@ -506,3 +506,183 @@ table.matrix th[title]{ cursor:help; }
 .select-row select{ width:100%; max-width:100%; text-overflow: ellipsis; }
 .stepper{ flex-wrap: wrap; }
 @media (max-width: 480px){ .stepper .tab{ font-size: 11px; padding: 6px 8px; } }
+
+/* ---------- Revisión: validación, tabla paso a paso, empates ---------- */
+.stepper .tab{ cursor:pointer; }
+.stepper .tab.active{ cursor:default; }
+table.matrix td input.invalid{ background:#FBE4E2; outline:2px solid var(--warn); outline-offset:-2px; color: var(--warn); }
+table.trace thead th small{ display:block; font-weight:400; font-size:11px; opacity:.8; margin-top:2px; }
+table.trace td.done-cell{ color: var(--ok); background:#F1F4EE; }
+.steps-wrap .key{ font-family: var(--mono); font-size:12px; padding:1px 5px; border-radius:2px; }
+.steps-wrap .key-final{ background: var(--accent); color:#fff; }
+.steps-wrap .key-upd{ background:#FDF3EC; color: var(--accent-dim); font-weight:600; }
+.narrative ul{ margin:4px 0 2px; padding-left:20px; }
+.narrative ul li{ margin-bottom:2px; }
+.result-card .ties{ margin-top:10px; font-family: var(--sans); font-size:13px; color: var(--paper); border-top:1px solid var(--line-dim); padding-top:8px; }
+.legend-panel{ margin-top:16px; }
+.legend-panel .legend{ columns: 2 300px; column-gap: 24px; }
+.legend-panel .legend li{ break-inside: avoid; }
+
+/* =====================================================================
+   Íconos, transiciones y animación del algoritmo
+   ===================================================================== */
+.ic{
+  width:1.15em; height:1.15em; flex-shrink:0;
+  fill:none; stroke: currentColor; stroke-width:2;
+  stroke-linecap:round; stroke-linejoin:round;
+  vertical-align:-0.2em;
+}
+button.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  transition: transform .12s ease, box-shadow .15s ease, background .15s ease, filter .15s ease; }
+button.btn:not(:disabled):hover{ transform: translateY(-1px); box-shadow: 0 3px 0 rgba(16,32,46,.18); }
+button.btn:not(:disabled):active{ transform: translateY(1px); box-shadow:none; }
+button.btn.accent:not(:disabled):hover{ filter: brightness(1.05); }
+.with-ic{ display:flex; align-items:center; gap:8px; }
+.with-ic .ic{ color: var(--accent); }
+.choice-card .tag{ display:flex; align-items:center; gap:6px; }
+.choice-card{ transition: border-color .15s, background .15s, transform .15s, box-shadow .15s; }
+.choice-card:hover{ transform: translateY(-2px); box-shadow: 0 4px 0 rgba(16,32,46,.08); }
+.stepper .tab{ transition: background .2s, color .2s, border-color .2s; }
+.stepper .tab .tab-ic{ width:15px; height:15px; }
+@media (max-width: 560px){ .stepper .tab .tab-ic{ display:none; } }
+
+.case-banner{ justify-content:flex-start; }
+.case-banner .case-ic{ width:46px; height:46px; border-radius:50%; background:#FDF3EC; color: var(--accent);
+  display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.case-banner .case-ic .ic{ width:26px; height:26px; }
+.case-banner .case-text{ flex:1 1 240px; }
+.case-banner #btnLoadCase{ margin-left:auto; }
+.warn-box .ic, .ties .ic{ margin-right:4px; }
+.result-card .path .ic{ color: var(--accent); }
+
+/* transiciones de pantalla y resultado */
+.screen.visible{ animation: screenIn .35s cubic-bezier(.2,.7,.2,1); }
+@keyframes screenIn{ from{ opacity:0; transform: translateY(10px); } to{ opacity:1; transform:none; } }
+.result-card.show{ animation: popIn .4s cubic-bezier(.2,.8,.3,1.2); transition: opacity .3s; }
+@keyframes popIn{ from{ opacity:0; transform: scale(.96) translateY(6px); } to{ opacity:1; transform:none; } }
+.result-card.pending{ opacity:.35; }
+.steps-wrap{ animation: screenIn .45s ease both; }
+.error-box.show, .warn-box.show{ animation: popIn .3s ease; }
+table.matrix td input.invalid{ animation: shake .3s; }
+@keyframes shake{ 25%{ transform: translateX(-3px); } 75%{ transform: translateX(3px); } }
+
+/* entrada del grafo */
+#graphSvg .node, #graphSvg .badge, #graphSvg .badge.changed{ transform-box: fill-box; transform-origin: center; }
+#graphSvg.intro .node{ animation: nodeIn .45s cubic-bezier(.2,.8,.3,1.3) both; animation-delay: calc(var(--k) * 45ms); }
+#graphSvg.intro path.edge, #graphSvg.intro .edge-label{ animation: fadeIn .6s ease both .25s; }
+@keyframes nodeIn{ from{ opacity:0; transform: scale(.3); } to{ opacity:1; transform:none; } }
+@keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+
+/* aristas y camino mínimo */
+#graphSvg path.edge{ fill:none; stroke: var(--line); stroke-width:1.6; transition: stroke .25s, stroke-width .25s, opacity .25s; }
+#graphSvg .route-seg{ fill:none; stroke: var(--accent); stroke-width:4.5; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:0; }
+#graphSvg.drawing .route-seg{ animation: drawSeg .5s ease-in-out both; animation-delay: calc(var(--k) * .5s); }
+@keyframes drawSeg{ from{ stroke-dashoffset:1; } to{ stroke-dashoffset:0; } }
+#graphSvg .node .ring{ fill:none; stroke: var(--accent); stroke-width:3; opacity:0; transform-box: fill-box; transform-origin:center; }
+#graphSvg .node-tag{ font-family: var(--mono); font-size:10.5px; fill:#B9CCDA; text-anchor:middle; dominant-baseline:middle; letter-spacing:.04em; }
+#graphSvg .node circle.dot{ transition: fill .25s, stroke .25s, stroke-width .25s; }
+#graphSvg .node{ transition: opacity .25s; }
+
+/* etiquetas [d, P] sobre los vértices: solo en la animación */
+#graphSvg .badge{ display:none; }
+#graphSvg.anim .badge{ display:inline; }
+#graphSvg .badge rect{ fill: var(--paper); stroke: var(--accent); stroke-width:1.2; }
+#graphSvg .badge text{ font-family: var(--mono); font-size:12px; font-weight:600; fill: var(--ink); text-anchor:middle; dominant-baseline:middle; }
+#graphSvg .badge.is-inf rect{ fill:#2a4a66; stroke: var(--line-dim); }
+#graphSvg .badge.is-inf text{ fill:#B9CCDA; }
+#graphSvg .badge.is-fixed rect{ fill:#DDEFE4; stroke: var(--ok); }
+#graphSvg .badge.changed{ animation: badgePop .55s cubic-bezier(.2,.8,.3,1.4); }
+@keyframes badgePop{ 0%{ transform: scale(.6); } 60%{ transform: scale(1.18); } 100%{ transform: none; } }
+
+/* estados durante la animación (antes del cuadro final) */
+#graphSvg.anim:not(.final) .route{ display:none; }
+#graphSvg.anim:not(.final) .node-tag{ display:none; }
+#graphSvg.anim:not(.final) path.edge{ opacity:.35; }
+#graphSvg.anim:not(.final) .edge-label{ opacity:.55; }
+#graphSvg.anim:not(.final) .edge-label.in-path rect{ stroke: var(--line-dim); stroke-width:1; }
+#graphSvg.anim:not(.final) .edge-label.in-path text{ fill:#E6F0F7; font-weight:400; }
+#graphSvg.anim:not(.final) .node{ opacity:.55; }
+#graphSvg.anim:not(.final) .node circle.dot{ fill: var(--paper); stroke: var(--paper); stroke-width:2.5; }
+#graphSvg.anim:not(.final) .node.reached{ opacity:1; }
+#graphSvg.anim:not(.final) .node.reached circle.dot{ stroke: var(--accent); stroke-width:3; stroke-dasharray:5 4; }
+#graphSvg.anim:not(.final) .node.fixed{ opacity:1; }
+#graphSvg.anim:not(.final) .node.fixed circle.dot{ fill:#DDEFE4; stroke: var(--ok); stroke-width:4; }
+#graphSvg.anim:not(.final) .node.current{ opacity:1; }
+#graphSvg.anim:not(.final) .node.current circle.dot{ fill: var(--accent); stroke:#fff; stroke-width:3; }
+#graphSvg.anim:not(.final) .node.current text{ fill:#fff; }
+#graphSvg.anim:not(.final) .node.current .ring{ animation: ring 1.3s ease-out infinite; }
+@keyframes ring{ from{ opacity:.9; transform: scale(1); } to{ opacity:0; transform: scale(1.9); } }
+#graphSvg.anim path.edge.tree{ opacity:1; stroke: var(--paper); stroke-width:3; }
+#graphSvg.anim path.edge.relax-upd{ opacity:1; stroke:#6BD49A; stroke-width:4; animation: edgeFlash .7s ease-out; }
+#graphSvg.anim path.edge.relax-keep{ opacity:1; stroke:#9DB3C4; stroke-width:2.5; stroke-dasharray:7 6; }
+@keyframes edgeFlash{ 0%{ stroke-width:9; } 100%{ stroke-width:4; } }
+#graphSvg.anim .edge-label.relax-upd{ opacity:1; }
+#graphSvg.anim .edge-label.relax-upd rect{ stroke:#6BD49A; stroke-width:1.6; }
+#graphSvg.anim .edge-label.relax-upd text{ fill:#6BD49A; font-weight:700; }
+#graphSvg.anim .edge-label.relax-keep, #graphSvg.anim .edge-label.tree{ opacity:1; }
+
+/* barra de animación */
+.graph-layout.wide .anim-bar{ order:0; }
+.graph-layout.wide .canvas-frame{ order:1; }
+svg#graphSvg{ max-height: 74vh; }
+.anim-bar{ display:none; background:#fff; border:1.5px solid var(--line-dim); border-radius: var(--radius); padding: 12px 14px; }
+.anim-bar.show{ display:block; animation: popIn .35s ease; }
+.anim-bar.active{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(226,121,61,.12); }
+.anim-controls{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.icon-btn{ width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center;
+  border:1.5px solid var(--ink); border-radius: var(--radius); background:transparent; color: var(--ink); cursor:pointer;
+  transition: background .15s, transform .12s; }
+.icon-btn:not(:disabled):hover{ background: var(--paper-dim); }
+.icon-btn:not(:disabled):active{ transform: scale(.94); }
+.icon-btn:disabled{ opacity:.3; cursor:not-allowed; }
+.icon-btn[hidden]{ display:none; }
+.play-btn{ min-width: 196px; }
+.anim-counter{ font-family: var(--mono); font-size:13px; color: var(--blueprint-3); margin: 0 6px; flex: 1 1 160px; }
+.anim-speed{ font-family: var(--mono); font-size:12px; color:#41525f; display:flex; align-items:center; gap:6px; }
+.anim-speed select{ font-family: var(--mono); font-size:12px; padding:6px; border:1.5px solid var(--line-dim); border-radius: var(--radius); background:#fff; }
+.anim-caption{ display:none; margin-top:12px; padding:12px 14px; background: var(--paper); border-left:4px solid var(--accent); font-size:14px; line-height:1.55; }
+.anim-bar.active .anim-caption{ display:block; animation: fadeIn .3s ease; }
+.anim-caption ul{ margin:6px 0 0; padding-left:20px; }
+.anim-caption code{ font-family: var(--mono); background: var(--paper-dim); padding:1px 5px; border-radius:2px; }
+.anim-key{ display:none; margin-top:10px; gap:6px 16px; flex-wrap:wrap; font-size:12px; color:#41525f; }
+.anim-bar.active .anim-key{ display:flex; }
+.anim-key span{ display:inline-flex; align-items:center; gap:6px; }
+.anim-key i{ display:inline-block; width:14px; height:14px; border-radius:50%; }
+.anim-key .k-cur{ background: var(--accent); }
+.anim-key .k-fix{ background:#DDEFE4; border:2.5px solid var(--ok); }
+.anim-key .k-reach{ background:#fff; border:2px dashed var(--accent); }
+.anim-key .k-upd, .anim-key .k-keep, .anim-key .k-tree{ width:22px; height:0; border-radius:0; }
+.anim-key .k-upd{ border-top:4px solid #3FAE72; }
+.anim-key .k-keep{ border-top:3px dashed #8FA9BD; }
+.anim-key .k-tree{ border-top:3px solid var(--blueprint); }
+
+/* tabla y explicación sincronizadas con la animación */
+table.trace th, table.trace td{ transition: opacity .3s, box-shadow .3s; }
+table.trace .future{ opacity:.12; }
+table.trace thead th.cur-col{ background: var(--accent); }
+table.trace td.cur-col{ box-shadow: inset 0 0 0 2px var(--accent); }
+.narrative > li{ transition: opacity .3s, background .3s; border-radius:2px; }
+.narrative > li.future{ opacity:.35; }
+.narrative > li.cur{ background:#FDF3EC; box-shadow: -8px 0 0 #FDF3EC, 8px 0 0 #FDF3EC; }
+
+@media (max-width: 560px){
+  .play-btn{ min-width:0; flex: 1 1 100%; order:-1; }
+  .anim-counter{ flex-basis:100%; order:5; margin:4px 0 0; }
+}
+
+/* Respeta la preferencia "reducir movimiento" del sistema */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  #graphSvg .node .ring{ display:none; }
+}
+
+/* durante la animación: el resultado se revela recién al final, y la barra +
+   el grafo caben juntos en la pantalla */
+.result-card.pending{ opacity:.5; filter: blur(7px); user-select:none; }
+.result-card{ transition: opacity .35s, filter .35s; }
+.anim-bar{ scroll-margin-top: 8px; }
+.anim-caption{ max-height: 132px; overflow-y:auto; font-size:13.5px; }
+.graph-layout.animating svg#graphSvg{ max-height: calc(100vh - 300px); min-height: 300px; }
+#graphSvg .badge text{ font-size:14.5px; }
+.anim-bar.final .anim-key{ display:none; }
+.anim-key .k-tree{ border-top:3px solid #fff; box-shadow: 0 0 0 2px var(--blueprint); }
